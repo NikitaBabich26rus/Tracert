@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.NetworkInformation;
 
 namespace Tracert
@@ -42,10 +43,17 @@ namespace Tracert
 
         static void Main(string[] args)
         {
-            string host = "87.240.190.78"; //vk.com
-            Console.WriteLine($"Трассировка маршрута к {host}");
+            Console.Write("Введите IP-aдрес: ");
+            var ip = Console.ReadLine();
+            if (!IPAddress.TryParse(ip, out IPAddress value))
+            {
+                Console.WriteLine("Невалидный IP.");
+                return;
+            }
+
+            Console.WriteLine($"Трассировка маршрута к {ip}");
             Console.WriteLine($"Максимальное число прыжков: {_maxTTL}");
-            var ipAddresses = GetTraceRoute(host);
+            var ipAddresses = GetTraceRoute(ip);
 
             foreach (var item in ipAddresses)
             {
